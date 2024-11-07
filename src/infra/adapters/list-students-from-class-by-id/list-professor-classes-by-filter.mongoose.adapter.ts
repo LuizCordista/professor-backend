@@ -19,6 +19,11 @@ export class ListStudentsFromClassByIdMongooseAdapter implements ListStudentsFro
 
   private mapStudentsToModel(studentDocumentList: StudentDocument[]): ListStudentsFromClassByIdPortResult {
     console.log('studentDocumentList', studentDocumentList);
-    return [];
+    return studentDocumentList.map((studentDocument) => ({
+      id: studentDocument.id,
+      name: studentDocument.name,
+      status: studentDocument.status,
+      classCodeList: studentDocument.classCodeList,
+    }));
   }
 }
