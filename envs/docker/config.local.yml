@@ -1,5 +1,4 @@
 LOGGER_LEVEL: debug
 
-
 MONGODB_CONNECTION_STRING: 'mongodb://component-mongo:27017/?w=majority'
 MONGODB_DATABASE_NAME: academico-svc
