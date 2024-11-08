@@ -4,4 +4,4 @@ export interface ListProfessorClassesByFilterInput {
   professorId: string;
 }
 
-export type ListProfessorClassesByFilterResult = Class[];
+export type ListProfessorClassesByFilterResult = (Class & { status: string })[];

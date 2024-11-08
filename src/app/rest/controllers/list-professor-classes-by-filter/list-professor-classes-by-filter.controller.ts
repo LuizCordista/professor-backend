@@ -2,6 +2,7 @@ import { Controller, Get, Header, HttpCode, HttpStatus, Param } from '@nestjs/co
 import { ClassResponseBody } from './list-professor-classes-by-filter.types';
 import { ListProfessorClassesByFilterUsecaseFactory } from '../../../../infra/factories/usecases/list-professor-classes-by-filter.usecase.factory';
 import { ListProfessorClassesByFilterPortResult } from '../../../../domain/ports/list-professor-classes-by-filter.port';
+import { ListProfessorClassesByFilterResult } from '../../../../domain/usecases/list-professor-classes-by-filter/list-professor-classes-by-filter.types';
 
 @Controller()
 export class ListProfessorClassesByFilterController {
@@ -13,12 +14,12 @@ export class ListProfessorClassesByFilterController {
   async execute(@Param('id') professorId: string): Promise<ClassResponseBody[]> {
     const usecase = this.usecaseFactory.getInstance();
 
-    const classes: ListProfessorClassesByFilterPortResult = await usecase.execute({ professorId });
+    const classes: ListProfessorClassesByFilterResult = await usecase.execute({ professorId });
 
     return this.mapToResponseBody(classes);
   }
 
-  private mapToResponseBody(classes: ListProfessorClassesByFilterPortResult): ClassResponseBody[] {
+  private mapToResponseBody(classes: ListProfessorClassesByFilterResult): ClassResponseBody[] {
     return classes.map((classItem) => ({
       code: classItem.code,
       courseId: classItem.courseId,
@@ -26,6 +27,7 @@ export class ListProfessorClassesByFilterController {
       campus: classItem.campus,
       period: classItem.period,
       modality: classItem.modality,
+      status: classItem.status,
     }));
   }
 }

@@ -5,4 +5,5 @@ export interface ClassResponseBody {
   campus: string;
   period: string;
   modality: string;
+  status: string;
 }
