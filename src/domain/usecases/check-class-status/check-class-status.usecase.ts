@@ -5,10 +5,22 @@ export class CheckClassStatusUsecase {
   constructor(private readonly listStudentsFromClassByIdPort: ListStudentsFromClassByIdPort) {}
 
   async execute({ classId }: CheckClassStatusInput): Promise<string> {
-    await this.listStudentsFromClassByIdPort.execute({
+    const students = await this.listStudentsFromClassByIdPort.execute({
       classId,
     });
 
-    return '';
+    if (students.length === 0) {
+      return 'ABERTA';
+    }
+
+    const allStudentsEvaluated = students.every((student) => student.status !== 'NAO_AVALIADO');
+
+    if (allStudentsEvaluated) {
+      return 'FECHADA';
+    }
+
+    const hasAnyEvaluated = students.some((student) => student.status !== 'NAO_AVALIADO');
+
+    return hasAnyEvaluated ? 'EM_FECHAMENTO' : 'ABERTA';
   }
 }
