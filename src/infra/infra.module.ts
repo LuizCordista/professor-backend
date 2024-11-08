@@ -12,18 +12,21 @@ import { ListStudentsFromClassByIdUsecaseFactory } from './factories/usecases/li
 import { ListStudentsFromClassByIdPortFactory } from './factories/ports/list-students-from-class-by-id.port.factory';
 import { UpdateStudentStatusPortFactory } from './factories/ports/update-studant-status.port.factory';
 import { CheckClassStatusUsecaseFactory } from './factories/usecases/check-class-status.usecase.factory';
+import { UpdateStudentStatusByEvaluationUsecaseFactory } from './factories/usecases/update-student-status-by-evaluation.usecase.factory';
 
 @Module({
   exports: [
     ListProfessorClassesByFilterUsecaseFactory,
     ListStudentsFromClassByIdUsecaseFactory,
     CheckClassStatusUsecaseFactory,
+    UpdateStudentStatusByEvaluationUsecaseFactory,
   ],
   providers: [
     // Usecases
     ListProfessorClassesByFilterUsecaseFactory,
     ListStudentsFromClassByIdUsecaseFactory,
     CheckClassStatusUsecaseFactory,
+    UpdateStudentStatusByEvaluationUsecaseFactory,
 
     // Ports
     ListProfessorClassesByFilterPortFactory,

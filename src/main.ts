@@ -36,16 +36,22 @@ const createFastifyAdapter = () => {
 };
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  const adapter = createFastifyAdapter();
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter);
   const configService = app.get(ConfigService);
   const seedService = app.get(SeedService);
 
   await seedService.seed();
 
-  const adapter = createFastifyAdapter();
-  const fastify = adapter.getInstance();
-
-  fastify.register(cors, {});
+  await app.register(cors, {
+    origin: true, // or specify your frontend URL like 'http://localhost:3000'
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-trace-id'],
+    exposedHeaders: ['x-trace-id'],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+  });
 
   await app.listen(configService.get<string>('PORT', '8080'), '0.0.0.0');
 }
