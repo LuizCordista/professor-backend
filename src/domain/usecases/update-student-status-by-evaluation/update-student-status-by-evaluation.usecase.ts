@@ -12,21 +12,8 @@ export class UpdateStudentStatusByEvaluationUsecase {
     notaP1,
     notaP2,
   }): Promise<UpdateStatusStudentByEvaluationResult> {
-    if (!studentId) {
-      throw new ValidationError('Estudante não informado');
-    }
 
-    if (aulasLecionadas < 0 || aulasAssistidas < 0) {
-      throw new ValidationError('Número de aulas não pode ser negativo');
-    }
-
-    if (aulasAssistidas > aulasLecionadas) {
-      throw new ValidationError('Número de aulas assistidas não pode ser maior que o número de aulas lecionadas');
-    }
-
-    if ((notaP1 != null && (notaP1 < 0 || notaP1 > 10)) || (notaP2 != null && (notaP2 < 0 || notaP2 > 10))) {
-      throw new ValidationError('Nota deve estar entre 0 e 10');
-    }
+    this.validateParams({ studentId, aulasLecionadas, aulasAssistidas, notaP1, notaP2 });
 
     let newStatus: string = 'NAO_AVALIADO';
 
@@ -49,5 +36,30 @@ export class UpdateStudentStatusByEvaluationUsecase {
     });
 
     return studentUpdated;
+  }
+
+  private validateParams({ studentId, aulasLecionadas, aulasAssistidas, notaP1, notaP2 }) {
+    if (typeof aulasLecionadas !== 'number' ||
+      typeof aulasAssistidas !== 'number' ||
+      (notaP1 != null && typeof notaP1 !== 'number') ||
+      (notaP2 != null && typeof notaP2 !== 'number')) {
+        throw new ValidationError('Todos os valores devem ser númericos');
+    }
+
+    if (!studentId) {
+      throw new ValidationError('Estudante não informado');
+    }
+
+    if (aulasLecionadas < 0 || aulasAssistidas < 0) {
+      throw new ValidationError('Número de aulas não pode ser negativo');
+    }
+
+    if (aulasAssistidas > aulasLecionadas) {
+      throw new ValidationError('Número de aulas assistidas não pode ser maior que o número de aulas lecionadas');
+    }
+
+    if ((notaP1 != null && (notaP1 < 0 || notaP1 > 10)) || (notaP2 != null && (notaP2 < 0 || notaP2 > 10))) {
+      throw new ValidationError('Nota deve estar entre 0 e 10');
+    }
   }
 }
